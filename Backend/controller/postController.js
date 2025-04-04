@@ -21,26 +21,27 @@ export const obtenerClientController = async (req, res) => {
   }
 };
 
-export const likePost = async (id) => {
+export const likePost = async (req,res) => {
+  const { id } = req.params;
+  const { likes } = req.body;
   try {
-    const consulta = "UPDATE posts SET likes = likes + 1 WHERE id = $1 ";
-    const { rows } = await db.query(consulta, [id]);
-    return rows[0];
+    const consulta = "UPDATE posts SET likes =$1 WHERE id = $2 ";
+    const { rows } = await db.query(consulta, [likes, id]);
+    res.status(200).json({ message: "Like actualizado",posts: rows[0] });
   } catch (error) {
     console.log(error.message);
   }
   
 };
 
-export const deletePost = async (id) => {
+export const deletePost = async (req, res) => {
+  const { id } = req.params;
   try {
-    const consulta = "DELETE FROM posts WHERE id = $1  ";
-    const { rows } = await db.query(consulta, [id]);
-    return rows[0];
-  } catch (error) {
+    const {rows} = await  db.query ("DELETE FROM posts WHERE id = $1",[id]);
+    res.status(200).json({ message: "Cliente eliminado", posts: rows[0] });
+   } catch (error) {
     console.log(error.message);
   }
-  
 };
 
 

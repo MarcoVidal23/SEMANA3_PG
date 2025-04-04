@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
   res.send("Desde mi servidor");
 });
 
-app.use(allRoutes);
+app.use("/",allRoutes);
 
 app.listen(PORT, () => {
   console.log(`Conectado en http://localhost:${PORT}`);
