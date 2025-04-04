@@ -16,9 +16,24 @@ export const agregarClientController = async (req, res) => {
 
 export const obtenerClientController = async (req, res) => {
   try {
-    const result = await db.query("Select * from posts");
+    const result = await db.query("Select * from posts order by id asc");
     res.status(200).json(result.rowCount);
   } catch (error) {
     console.log(error.message);
   }
 };
+
+export const likePost = async (id) => {
+  const consulta =
+    "UPDATE posts SET likes = likes + 1 WHERE id = $1 RETURNING *";
+  const { rows } = await pool.query(consulta, [id]);
+  return rows[0];
+};
+
+export const deletePost = async (id) => {
+  const consulta = "DELETE FROM posts WHERE id = $1 RETURNING *";
+  const { rows } = await pool.query(consulta, [id]);
+  return rows[0];
+};
+
+
