@@ -1,5 +1,5 @@
 import express from "express";
-import cors from "express";
+import cors from "cors";
 import { readFileSync } from "fs";
 import "dotenv/config";
 import { allRoutes } from "./router.js";
