@@ -29,7 +29,7 @@ export const likePost = async (req,res) => {
     const { rows } = await db.query(consulta, [likes, id]);
     res.status(200).json({ message: "Like actualizado",posts: rows[0] });
   } catch (error) {
-    console.log(error.message);
+     res.status(500).json({ error: "Error al dar like" });
   }
   
 };
@@ -40,7 +40,7 @@ export const deletePost = async (req, res) => {
     const {rows} = await  db.query ("DELETE FROM posts WHERE id = $1",[id]);
     res.status(200).json({ message: "Cliente eliminado", posts: rows[0] });
    } catch (error) {
-    console.log(error.message);
+    res.status(500).json({ error: "Error al eliminar el post" });
   }
 };
 
