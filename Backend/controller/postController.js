@@ -3,8 +3,8 @@ import { db } from "../bd/database.js";
 export const agregarClientController = async (req, res) => {
   try {
     const { titulo,img,descripcion,likes } = req.body;
-    const agrega = "insert into posts values (DEFAULT,$1,$2,$3,$4)";
-    const values = [titulo, img, descripcion, likes];
+    const agrega = "insert into posts values (DEFAULT,$1,$2,$3,DEFAULT)";
+    const values = [titulo, img, descripcion];
     const result = await db.query(agrega, values);
     res.status(201).json({ message: "Cliente Agregado", posts: result.rows });
   } catch (error) {
@@ -21,18 +21,20 @@ export const obtenerClientController = async (req, res) => {
   }
 };
 
-export const likePost = async (req,res) => {
+export const sumaLikes = async (req,res) => {
   const { id } = req.params;
-  const { likes } = req.body;
-  try {
-    const consulta = "UPDATE posts SET likes =$1 WHERE id = $2 ";
-    const { rows } = await db.query(consulta, [likes, id]);
-    res.status(200).json({ message: "Like actualizado",posts: rows[0] });
+    try {
+    const consulta =
+      "UPDATE posts SET likes = ( select likes  from public.posts  WHERE id =$1) +1 where id =$1 ";
+    const { rows } = await db.query(consulta, [id]);
+    res.status(200).json({ message: "Like sumado",posts: rows[0] });
   } catch (error) {
      res.status(500).json({ error: "Error al dar like" });
   }
   
 };
+
+
 
 export const deletePost = async (req, res) => {
   const { id } = req.params;
