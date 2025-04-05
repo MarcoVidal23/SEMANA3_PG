@@ -1,6 +1,7 @@
 function Post({
   post: { id, titulo, img, descripcion, likes },
   like,
+  sumaLikes,
   eliminarPost,
 }) {
   return (

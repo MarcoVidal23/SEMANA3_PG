@@ -17,14 +17,14 @@ function App() {
   };
 
   const agregarPost = async () => {
-    const post = { titulo, url: imgSrc, descripcion };
+    const post = { titulo, img: imgSrc, descripcion  };
     await axios.post(urlBaseServer + "/posts", post);
     getPosts();
   };
 
   // este método se utilizará en el siguiente desafío
-  const like = async (id) => {
-    await axios.put(urlBaseServer + `/posts/like${id}`);
+    const like = async (id) => {
+    await axios.put(urlBaseServer + `/posts/${id}`);
     getPosts();
   };
 
@@ -65,4 +65,4 @@ function App() {
   );
 }
 
-export default App;
+export default App ;
